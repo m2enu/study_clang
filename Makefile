@@ -1,43 +1,21 @@
-CC:=gcc
-CFLAGS:=-Wall -fno-common
-EX01:=global_wo_extern
-EX02:=global_with_extern
-SRC_EXCLUDES:=$(EX01)_sub.c $(EX02)_sub.c
-SRCS:=$(filter-out $(SRC_EXCLUDES),$(wildcard *.c))
-OBJS:=$(SRCS:.c=.o)
-SRC_MSG:=msg.c
-OBJ_MSG:=$(SRC_MSG:.c=.o)
+CC              := gcc
+TARGETS         := include_guard.o no_include_guard.o           \
+                   global_with_extern.o global_wo_extern.o
 
-.SUFFIXES: .c .o
-
-.c.o: $(OBJ_MSG)
-	@echo
-	@./$(OBJ_MSG) $<
-	-$(CC) $(CFLAGS) $< -o $@
-	@if [ -f $@ ]; then ./$@; fi
-
-.PHONY: all clean print
-
-all: $(OBJS)
+all: clean $(TARGETS)
 
 clean:
 	$(RM) *.o *.gch
 
-print:
-	@echo $(SRCS)
-	@echo $(OBJS)
+include_guard.o         : include_guard.c
+no_include_guard.o      : no_include_guard.c
+global_with_extern.o    : global_with_extern.c global_with_extern_sub.c
+global_wo_extern.o      : global_wo_extern.c global_wo_extern_sub.c
 
-$(EX01).o: $(OBJ_MSG)
+%.o: %.c
 	@echo
-	@./$(OBJ_MSG) $(EX01).c
-	-$(CC) $(CFLAGS) $(EX01).c $(EX01)_sub.c -o $@
-	@if [ -f $@ ]; then ./$@; fi
+	@echo "\x1b[30;42m===== Compile $@ =====\x1b[0m"
+	-$(CC) $^ -o $@ && ./$@
 
-$(EX02).o: $(OBJ_MSG)
-	@echo
-	@./$(OBJ_MSG) $(EX02).c
-	-$(CC) $(CFLAGS) $(EX02).c $(EX02)_sub.c -o $@
-	@if [ -f $@ ]; then ./$@; fi
+.PHONY: all clean
 
-$(OBJ_MSG): $(SRC_MSG)
-	$(CC) $(CFLAGS) $< -o $@
