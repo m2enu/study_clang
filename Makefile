@@ -1,6 +1,7 @@
 CC              := gcc
 TARGETS         := include_guard.o no_include_guard.o           \
-                   global_with_extern.o global_wo_extern.o
+                   global_with_extern.o global_wo_extern.o      \
+                   variable_scope.o
 
 all: clean $(TARGETS)
 
