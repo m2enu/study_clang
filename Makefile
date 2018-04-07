@@ -7,8 +7,6 @@ all: clean $(TARGETS)
 clean:
 	$(RM) *.o *.gch
 
-include_guard.o         : include_guard.c
-no_include_guard.o      : no_include_guard.c
 global_with_extern.o    : global_with_extern.c global_with_extern_sub.c
 global_wo_extern.o      : global_wo_extern.c global_wo_extern_sub.c
 
@@ -18,4 +16,3 @@ global_wo_extern.o      : global_wo_extern.c global_wo_extern_sub.c
 	-$(CC) $^ -o $@ && ./$@
 
 .PHONY: all clean
-
