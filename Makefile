@@ -1,7 +1,8 @@
 CC              := gcc
-TARGETS         := include_guard.o no_include_guard.o           \
-                   global_with_extern.o global_wo_extern.o      \
-                   variable_scope.o callback.o
+TARGETS         := include_guard.o no_include_guard.o                   \
+                   global_with_extern.o global_wo_extern.o              \
+                   variable_scope.o callback.o pointer_bigdata.o        \
+                   inline_function.o struct_const.o struct_macro.o
 
 all: clean $(TARGETS)
 
